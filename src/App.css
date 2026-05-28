@@ -1,0 +1,178 @@
+.app-shell {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 24px 20px 32px;
+}
+
+.topbar {
+  background: #11131a;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 12px;
+  padding: 16px 18px;
+  margin-bottom: 18px;
+}
+
+.topbar h1 {
+  font-size: 22px;
+  margin: 0 0 12px;
+  color: #f4f9ff;
+  font-weight: 700;
+}
+
+.topbar nav {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.topbar a {
+  text-decoration: none;
+  color: #b4c3d1;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: #0f1117;
+  padding: 7px 11px;
+  border-radius: 12px;
+  font-size: 14px;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.topbar a.active {
+  color: #00d4ff;
+  border-color: rgba(0, 212, 255, 0.56);
+  background: rgba(0, 212, 255, 0.1);
+}
+
+.topbar a:hover {
+  color: #d9e8f4;
+  border-color: rgba(0, 212, 255, 0.45);
+}
+
+.page-container {
+  background: #11131a;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 12px;
+  padding: 18px;
+}
+
+.page-title {
+  margin: 0 0 10px;
+  font-size: 22px;
+  color: #f3f8ff;
+  font-weight: 700;
+}
+
+.page-desc {
+  margin: 0 0 18px;
+  color: #9aa6b2;
+  font-size: 14px;
+}
+
+.card {
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 12px;
+  padding: 14px;
+  margin-bottom: 14px;
+  background: #0f1117;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 12px;
+}
+
+.label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 13px;
+  color: #c8d2dc;
+}
+
+input,
+textarea,
+select,
+button {
+  font: inherit;
+}
+
+input,
+textarea,
+select {
+  width: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 12px;
+  padding: 9px 10px;
+  background: #0a0d13;
+  color: #e6edf3;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: rgba(0, 212, 255, 0.75);
+  box-shadow: 0 0 0 2px rgba(0, 212, 255, 0.18);
+}
+
+textarea {
+  min-height: 96px;
+  resize: vertical;
+}
+
+button {
+  border: 1px solid rgba(0, 212, 255, 0.9);
+  background: #00a9cc;
+  color: #ffffff;
+  border-radius: 12px;
+  padding: 9px 14px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: transform 0.16s ease, box-shadow 0.16s ease, opacity 0.16s ease;
+}
+
+button:hover:not(:disabled) {
+  transform: translateY(-1px);
+  background: #00b8de;
+}
+
+button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+button.secondary {
+  background: #0f1117;
+  color: #d2dde8;
+  border-color: rgba(255, 255, 255, 0.18);
+}
+
+.row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.pill {
+  display: inline-block;
+  border-radius: 999px;
+  border: 1px solid rgba(0, 212, 255, 0.42);
+  background: rgba(0, 212, 255, 0.12);
+  padding: 4px 10px;
+  font-size: 12px;
+  color: #bfeeff;
+  margin-right: 8px;
+  margin-bottom: 8px;
+}
+
+.muted {
+  color: #9aa6b2;
+}
+
+.card p {
+  color: #d2dde8;
+}
+
+.card strong {
+  color: #f0f6ff;
+}
