@@ -28,10 +28,35 @@ cp .env.example .env
 - `VITE_SUPABASE_ANON_KEY`
 - `LLM_API_KEY`（仅后端使用，不暴露给浏览器）
 - 可选：`LLM_API_URL`、`LLM_MODEL`、`PORT`
+- 可选：`LANGFUSE_PUBLIC_KEY`、`LANGFUSE_SECRET_KEY`、`LANGFUSE_BASE_URL`（仅后端使用）
 
 3. 在 Supabase SQL Editor 执行 `supabase/schema.sql` 建表。
 
 > 未配置 Supabase 时，项目会自动使用内存数据模式，方便先跑前端流程。
+
+## 2.1) Langfuse 可观测性（可选）
+
+在 Langfuse 创建项目后，将项目的 Public Key 和 Secret Key 写入 `.env`。配置完成后，后端会记录每次诊断的：
+
+- 模型、请求轮数、Prompt 参数和重试次数
+- 调用延迟、Token 用量、JSON 结构化输出是否通过校验
+- 成功或 fallback 状态
+
+为保护学生隐私，追踪中不会记录学生原始回答、题干或错误答案，只会记录回答轮数、长度和学科等汇总信息。
+
+## 2.2) 自建标注评测集
+
+`evaluation/mistake-diagnosis-cases.json` 包含 24 条分学段、分学科的模拟学生诊断样例；它们用于验证错因分类、状态识别、结构化输出和耗时，不代表真实用户数据。
+
+本地先启动后端，再运行：
+
+```bash
+npm run evaluate
+```
+
+评测会调用与前端相同的 `/api/diagnosis` 接口，Langfuse 中会出现对应 Trace。题目背景会发送给模型参与诊断，但 Langfuse 只记录汇总信息与结构化结果。
+
+每次运行会更新 `evaluation/latest-report.json`，其中保留命中率、平均耗时及每条样例的预期/实际结果；Langfuse Trace 元数据中也会带有 `evaluationCaseId`，便于复核。
 
 ## 3) 关键目录
 

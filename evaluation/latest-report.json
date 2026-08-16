@@ -1,0 +1,490 @@
+{
+  "evaluatedAt": "2026-08-16T07:18:52.843Z",
+  "total": 24,
+  "structuredOutputRate": 1,
+  "errorTypeMatchRate": 0.9583333333333334,
+  "stateMatchRate": 1,
+  "averageLatencyMs": 4525,
+  "results": [
+    {
+      "id": "P5-MATH-01",
+      "stage": "小学五年级",
+      "subject": "数学",
+      "expected": {
+        "errorType": "知识盲区",
+        "state": "正常",
+        "knowledgePointHint": "异分母分数加法"
+      },
+      "actual": {
+        "error_type": "知识盲区",
+        "knowledge_point": "异分母分数加法（通分）",
+        "state": "正常",
+        "confidence": 0.9
+      },
+      "latencyMs": 3172,
+      "structured": true,
+      "errorTypeMatched": true,
+      "stateMatched": true
+    },
+    {
+      "id": "P5-MATH-02",
+      "stage": "小学五年级",
+      "subject": "数学",
+      "expected": {
+        "errorType": "计算粗心",
+        "state": "正常",
+        "knowledgePointHint": "折扣百分数计算"
+      },
+      "actual": {
+        "error_type": "计算粗心",
+        "knowledge_point": "折扣计算（八折=原价×0.8）",
+        "state": "正常",
+        "confidence": 0.95
+      },
+      "latencyMs": 3394,
+      "structured": true,
+      "errorTypeMatched": true,
+      "stateMatched": true
+    },
+    {
+      "id": "P6-ENGLISH-01",
+      "stage": "小学六年级",
+      "subject": "英语",
+      "expected": {
+        "errorType": "计算粗心",
+        "state": "正常",
+        "knowledgePointHint": "单词拼写"
+      },
+      "actual": {
+        "error_type": "计算粗心",
+        "knowledge_point": "单词拼写（library）",
+        "state": "正常",
+        "confidence": 0.9
+      },
+      "latencyMs": 6319,
+      "structured": true,
+      "errorTypeMatched": true,
+      "stateMatched": true
+    },
+    {
+      "id": "P6-CHINESE-01",
+      "stage": "小学六年级",
+      "subject": "语文",
+      "expected": {
+        "errorType": "知识盲区",
+        "state": "正常",
+        "knowledgePointHint": "成分残缺与主语"
+      },
+      "actual": {
+        "error_type": "知识盲区",
+        "knowledge_point": "句子成分分析（主语缺失）与“通过...使...”句式结构",
+        "state": "正常",
+        "confidence": 0.8
+      },
+      "latencyMs": 9859,
+      "structured": true,
+      "errorTypeMatched": true,
+      "stateMatched": true
+    },
+    {
+      "id": "J7-MATH-01",
+      "stage": "初一",
+      "subject": "数学",
+      "expected": {
+        "errorType": "知识盲区",
+        "state": "正常",
+        "knowledgePointHint": "有理数减法法则"
+      },
+      "actual": {
+        "error_type": "知识盲区",
+        "knowledge_point": "有理数减法法则（减去一个数等于加上这个数的相反数）",
+        "state": "正常",
+        "confidence": 0.9
+      },
+      "latencyMs": 4467,
+      "structured": true,
+      "errorTypeMatched": true,
+      "stateMatched": true
+    },
+    {
+      "id": "J7-ENGLISH-01",
+      "stage": "初一",
+      "subject": "英语",
+      "expected": {
+        "errorType": "知识盲区",
+        "state": "正常",
+        "knowledgePointHint": "一般现在时第三人称单数"
+      },
+      "actual": {
+        "error_type": "知识盲区",
+        "knowledge_point": "一般现在时中，主语为第三人称单数时，谓语动词的变化规则（包括动词加-s/es，以及助动词does的使用）",
+        "state": "正常",
+        "confidence": 0.9
+      },
+      "latencyMs": 5802,
+      "structured": true,
+      "errorTypeMatched": true,
+      "stateMatched": true
+    },
+    {
+      "id": "J8-MATH-01",
+      "stage": "初二",
+      "subject": "数学",
+      "expected": {
+        "errorType": "题型不熟",
+        "state": "正常",
+        "knowledgePointHint": "三角形全等证明"
+      },
+      "actual": {
+        "error_type": "题型不熟",
+        "knowledge_point": "三角形全等的判定（SAS）及证明步骤的组织",
+        "state": "正常",
+        "confidence": 0.8
+      },
+      "latencyMs": 4885,
+      "structured": true,
+      "errorTypeMatched": true,
+      "stateMatched": true
+    },
+    {
+      "id": "J8-PHYSICS-01",
+      "stage": "初二",
+      "subject": "物理",
+      "expected": {
+        "errorType": "知识盲区",
+        "state": "正常",
+        "knowledgePointHint": "密度公式"
+      },
+      "actual": {
+        "error_type": "知识盲区",
+        "knowledge_point": "密度概念与公式（ρ=m/V）",
+        "state": "正常",
+        "confidence": 0.9
+      },
+      "latencyMs": 2936,
+      "structured": true,
+      "errorTypeMatched": true,
+      "stateMatched": true
+    },
+    {
+      "id": "J9-MATH-01",
+      "stage": "初三",
+      "subject": "数学",
+      "expected": {
+        "errorType": "计算粗心",
+        "state": "正常",
+        "knowledgePointHint": "一元二次方程求根"
+      },
+      "actual": {
+        "error_type": "计算粗心",
+        "knowledge_point": "一元二次方程因式分解法",
+        "state": "正常",
+        "confidence": 0.9
+      },
+      "latencyMs": 6260,
+      "structured": true,
+      "errorTypeMatched": true,
+      "stateMatched": true
+    },
+    {
+      "id": "J9-CHINESE-01",
+      "stage": "初三",
+      "subject": "语文",
+      "expected": {
+        "errorType": "知识盲区",
+        "state": "正常",
+        "knowledgePointHint": "文言虚词之"
+      },
+      "actual": {
+        "error_type": "知识盲区",
+        "knowledge_point": "文言虚词“之”的用法（此处特指宾语前置句“何陋之有”中作为宾语前置标志的助词，无实义，不译）",
+        "state": "正常",
+        "confidence": 0.9
+      },
+      "latencyMs": 5237,
+      "structured": true,
+      "errorTypeMatched": true,
+      "stateMatched": true
+    },
+    {
+      "id": "J9-CHEMISTRY-01",
+      "stage": "初三",
+      "subject": "化学",
+      "expected": {
+        "errorType": "题型不熟",
+        "state": "正常",
+        "knowledgePointHint": "酸碱中和反应表达"
+      },
+      "actual": {
+        "error_type": "题型不熟",
+        "knowledge_point": "酸碱中和反应方程式的规范书写（包括条件、现象、变式题答题顺序）",
+        "state": "正常",
+        "confidence": 0.8
+      },
+      "latencyMs": 3337,
+      "structured": true,
+      "errorTypeMatched": true,
+      "stateMatched": true
+    },
+    {
+      "id": "J9-ENGLISH-01",
+      "stage": "初三",
+      "subject": "英语",
+      "expected": {
+        "errorType": "状态差",
+        "state": "疲惫",
+        "knowledgePointHint": "篇章语境与连接词"
+      },
+      "actual": {
+        "error_type": "状态差",
+        "knowledge_point": "完形填空中连接词的上下文逻辑判断",
+        "state": "疲惫",
+        "confidence": 0.8
+      },
+      "latencyMs": 3342,
+      "structured": true,
+      "errorTypeMatched": true,
+      "stateMatched": true
+    },
+    {
+      "id": "H1-MATH-01",
+      "stage": "高一",
+      "subject": "数学",
+      "expected": {
+        "errorType": "知识盲区",
+        "state": "正常",
+        "knowledgePointHint": "绝对值不等式"
+      },
+      "actual": {
+        "error_type": "知识盲区",
+        "knowledge_point": "绝对值不等式 |x-a| < b 的解法（解集为 a-b < x < a+b）",
+        "state": "正常",
+        "confidence": 0.9
+      },
+      "latencyMs": 3345,
+      "structured": true,
+      "errorTypeMatched": true,
+      "stateMatched": true
+    },
+    {
+      "id": "H1-PHYSICS-01",
+      "stage": "高一",
+      "subject": "物理",
+      "expected": {
+        "errorType": "题型不熟",
+        "state": "正常",
+        "knowledgePointHint": "斜面受力分析"
+      },
+      "actual": {
+        "error_type": "知识盲区",
+        "knowledge_point": "斜面受力分析中摩擦力方向的判断及受力图的规范绘制",
+        "state": "正常",
+        "confidence": 0.9
+      },
+      "latencyMs": 3262,
+      "structured": true,
+      "errorTypeMatched": false,
+      "stateMatched": true
+    },
+    {
+      "id": "H1-CHEMISTRY-01",
+      "stage": "高一",
+      "subject": "化学",
+      "expected": {
+        "errorType": "计算粗心",
+        "state": "正常",
+        "knowledgePointHint": "物质的量与摩尔质量"
+      },
+      "actual": {
+        "error_type": "计算粗心",
+        "knowledge_point": "物质的量与质量换算",
+        "state": "正常",
+        "confidence": 0.9
+      },
+      "latencyMs": 2330,
+      "structured": true,
+      "errorTypeMatched": true,
+      "stateMatched": true
+    },
+    {
+      "id": "H1-ENGLISH-01",
+      "stage": "高一",
+      "subject": "英语",
+      "expected": {
+        "errorType": "知识盲区",
+        "state": "正常",
+        "knowledgePointHint": "虚拟语气"
+      },
+      "actual": {
+        "error_type": "知识盲区",
+        "knowledge_point": "虚拟语气（对现在/将来的假设）的构成规则",
+        "state": "正常",
+        "confidence": 0.9
+      },
+      "latencyMs": 3187,
+      "structured": true,
+      "errorTypeMatched": true,
+      "stateMatched": true
+    },
+    {
+      "id": "H2-MATH-01",
+      "stage": "高二",
+      "subject": "数学",
+      "expected": {
+        "errorType": "题型不熟",
+        "state": "正常",
+        "knowledgePointHint": "等差数列综合题"
+      },
+      "actual": {
+        "error_type": "题型不熟",
+        "knowledge_point": "等差数列前n项和公式与通项公式的关联与转换",
+        "state": "正常",
+        "confidence": 0.8
+      },
+      "latencyMs": 4958,
+      "structured": true,
+      "errorTypeMatched": true,
+      "stateMatched": true
+    },
+    {
+      "id": "H2-PHYSICS-01",
+      "stage": "高二",
+      "subject": "物理",
+      "expected": {
+        "errorType": "知识盲区",
+        "state": "正常",
+        "knowledgePointHint": "电场强度方向"
+      },
+      "actual": {
+        "error_type": "知识盲区",
+        "knowledge_point": "点电荷电场线方向与场强方向的关系（正电荷向外，负电荷向内）",
+        "state": "正常",
+        "confidence": 0.9
+      },
+      "latencyMs": 3097,
+      "structured": true,
+      "errorTypeMatched": true,
+      "stateMatched": true
+    },
+    {
+      "id": "H2-BIOLOGY-01",
+      "stage": "高二",
+      "subject": "生物",
+      "expected": {
+        "errorType": "知识盲区",
+        "state": "正常",
+        "knowledgePointHint": "有丝分裂数量变化"
+      },
+      "actual": {
+        "error_type": "知识盲区",
+        "knowledge_point": "有丝分裂各时期（前、中、后、末）的染色体、染色单体、DNA数量变化规律及对应图像特征",
+        "state": "正常",
+        "confidence": 0.9
+      },
+      "latencyMs": 3582,
+      "structured": true,
+      "errorTypeMatched": true,
+      "stateMatched": true
+    },
+    {
+      "id": "H3-MATH-01",
+      "stage": "高三",
+      "subject": "数学",
+      "expected": {
+        "errorType": "计算粗心",
+        "state": "正常",
+        "knowledgePointHint": "导数基本公式"
+      },
+      "actual": {
+        "error_type": "计算粗心",
+        "knowledge_point": "幂函数求导法则与常数求导",
+        "state": "正常",
+        "confidence": 0.9
+      },
+      "latencyMs": 2632,
+      "structured": true,
+      "errorTypeMatched": true,
+      "stateMatched": true
+    },
+    {
+      "id": "H2-CHEMISTRY-01",
+      "stage": "高二",
+      "subject": "化学",
+      "expected": {
+        "errorType": "题型不熟",
+        "state": "正常",
+        "knowledgePointHint": "化学平衡移动"
+      },
+      "actual": {
+        "error_type": "题型不熟",
+        "knowledge_point": "综合运用勒夏特列原理判断温度、浓度等多因素影响下的平衡移动",
+        "state": "正常",
+        "confidence": 0.8
+      },
+      "latencyMs": 7149,
+      "structured": true,
+      "errorTypeMatched": true,
+      "stateMatched": true
+    },
+    {
+      "id": "H3-ENGLISH-01",
+      "stage": "高三",
+      "subject": "英语",
+      "expected": {
+        "errorType": "态度问题",
+        "state": "敷衍",
+        "knowledgePointHint": "阅读主旨概括"
+      },
+      "actual": {
+        "error_type": "态度问题",
+        "knowledge_point": "阅读理解主旨题解题方法",
+        "state": "敷衍",
+        "confidence": 0.9
+      },
+      "latencyMs": 2780,
+      "structured": true,
+      "errorTypeMatched": true,
+      "stateMatched": true
+    },
+    {
+      "id": "H3-CHINESE-01",
+      "stage": "高三",
+      "subject": "语文",
+      "expected": {
+        "errorType": "状态差",
+        "state": "疲惫",
+        "knowledgePointHint": "人物形象概括"
+      },
+      "actual": {
+        "error_type": "状态差",
+        "knowledge_point": "现代文阅读中通过细节描写概括人物形象",
+        "state": "疲惫",
+        "confidence": 0.9
+      },
+      "latencyMs": 2892,
+      "structured": true,
+      "errorTypeMatched": true,
+      "stateMatched": true
+    },
+    {
+      "id": "H3-PHYSICS-01",
+      "stage": "高三",
+      "subject": "物理",
+      "expected": {
+        "errorType": "题型不熟",
+        "state": "正常",
+        "knowledgePointHint": "电路故障分析"
+      },
+      "actual": {
+        "error_type": "题型不熟",
+        "knowledge_point": "含电表的串并联电路故障分析步骤",
+        "state": "正常",
+        "confidence": 0.8
+      },
+      "latencyMs": 10374,
+      "structured": true,
+      "errorTypeMatched": true,
+      "stateMatched": true
+    }
+  ]
+}

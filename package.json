@@ -1,5 +1,5 @@
 {
-  "name": "ai-",
+  "name": "ai-mistake-notebook",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -7,11 +7,15 @@
     "dev": "concurrently \"npm:dev:web\" \"npm:dev:server\"",
     "dev:web": "vite",
     "dev:server": "node --watch server/index.js",
+    "evaluate": "node server/run-evaluation.js",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
   },
   "dependencies": {
+    "@langfuse/otel": "^5.10.0",
+    "@langfuse/tracing": "^5.10.0",
+    "@opentelemetry/sdk-node": "^0.221.0",
     "@supabase/supabase-js": "^2.106.2",
     "concurrently": "^10.0.0",
     "cors": "^2.8.6",

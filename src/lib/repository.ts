@@ -14,6 +14,8 @@ type NewDiagnosisInput = {
   userMessages: string[]
 }
 
+type MistakeContext = Pick<MistakeRecord, 'subject' | 'questionText' | 'studentAnswer'>
+
 const memoryStore = {
   mistakes: [] as MistakeRecord[],
   diagnosis: [] as DiagnosisResult[],
@@ -60,7 +62,8 @@ export const createMistake = async (input: NewMistakeInput): Promise<MistakeReco
 }
 
 export const createDiagnosis = async (input: NewDiagnosisInput): Promise<DiagnosisResult> => {
-  const mock = await runMockDiagnosis(input.mistakeId, input.userMessages)
+  const mistakeContext = await getMistakeContext(input.mistakeId)
+  const mock = await runMockDiagnosis(input.mistakeId, input.userMessages, mistakeContext)
 
   if (isSupabaseEnabled && supabase) {
     const { data, error } = await supabase
@@ -97,6 +100,32 @@ export const createDiagnosis = async (input: NewDiagnosisInput): Promise<Diagnos
   }
   memoryStore.diagnosis.unshift(created)
   return created
+}
+
+const getMistakeContext = async (mistakeId: string): Promise<MistakeContext | null> => {
+  if (isSupabaseEnabled && supabase) {
+    const { data, error } = await supabase
+      .from('mistakes')
+      .select('subject,question_text,student_answer')
+      .eq('id', mistakeId)
+      .maybeSingle()
+
+    if (error) throw error
+    if (!data) return null
+    return {
+      subject: data.subject,
+      questionText: data.question_text,
+      studentAnswer: data.student_answer,
+    }
+  }
+
+  const mistake = memoryStore.mistakes.find((item) => item.id === mistakeId)
+  if (!mistake) return null
+  return {
+    subject: mistake.subject,
+    questionText: mistake.questionText,
+    studentAnswer: mistake.studentAnswer,
+  }
 }
 
 export const getLatestDiagnosis = async (): Promise<DiagnosisResult | null> => {

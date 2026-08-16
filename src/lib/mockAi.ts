@@ -1,4 +1,4 @@
-import type { DiagnosisResult, ErrorType, StateTag } from '../types'
+import type { DiagnosisResult, ErrorType, MistakeRecord, StateTag } from '../types'
 
 type DiagnosisJson = {
   error_type: ErrorType
@@ -27,13 +27,14 @@ const parseDiagnosisJson = (raw: unknown): DiagnosisJson => {
 export const runMockDiagnosis = async (
   mistakeId: string,
   userMessages: string[],
+  mistakeContext: Pick<MistakeRecord, 'subject' | 'questionText' | 'studentAnswer'> | null,
 ): Promise<Omit<DiagnosisResult, 'id' | 'createdAt'>> => {
   const response = await fetch('/api/diagnosis', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ userMessages }),
+    body: JSON.stringify({ userMessages, mistakeContext }),
   })
 
   if (!response.ok) {
