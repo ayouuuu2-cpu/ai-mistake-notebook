@@ -7,6 +7,7 @@ select
   count(distinct session_id) as session_count
 from product_events
 where created_at >= now() - interval '7 days'
+  and coalesce(metadata ->> 'source', '') <> 'deployment_smoke_test'
 group by event_name
 order by event_count desc;
 
@@ -19,6 +20,7 @@ with session_funnel as (
     bool_or(event_name = 'diagnosis_completed') as completed_diagnosis
   from product_events
   where created_at >= now() - interval '7 days'
+    and coalesce(metadata ->> 'source', '') <> 'deployment_smoke_test'
   group by session_id
 )
 select
@@ -40,4 +42,5 @@ select
   count(*) filter (where event_name = 'diagnosis_started') as started_count
 from product_events
 where event_name in ('diagnosis_started', 'diagnosis_completed', 'diagnosis_failed')
-  and created_at >= now() - interval '7 days';
+  and created_at >= now() - interval '7 days'
+  and coalesce(metadata ->> 'source', '') <> 'deployment_smoke_test';

@@ -1,5 +1,9 @@
 # AI 错题本 MVP（React + Supabase）
 
+## 隐私边界
+
+作品集部署只将匿名流程事件写入 `product_events`，用于诊断漏斗和耗时分析；题干、作答、OCR 原文和追问内容保留在当前浏览器会话，不写入 Supabase。只有明确设置 `VITE_ENABLE_RAW_RECORD_STORAGE=true` 才会启用旧的云端错题存储，部署版不使用该开关。
+
 基于你的 PRD 搭建的 MVP 基础框架，当前覆盖四个核心页面：
 
 - `错题录入`：题干/错误答案录入 + OCR 文本确认字段

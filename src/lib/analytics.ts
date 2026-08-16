@@ -1,4 +1,4 @@
-import { isSupabaseEnabled, supabase } from './supabase'
+import { analyticsSupabase, isAnalyticsEnabled } from './supabase'
 import type { Subject } from '../types'
 
 type ProductEventName =
@@ -31,10 +31,10 @@ const getSessionId = () => {
 
 // 埋点失败不影响核心诊断流程；metadata 禁止放入题干、作答或对话内容。
 export const trackProductEvent = async (input: ProductEventInput) => {
-  if (!isSupabaseEnabled || !supabase) return
+  if (!isAnalyticsEnabled || !analyticsSupabase) return
 
   try {
-    await supabase.from('product_events').insert({
+    await analyticsSupabase.from('product_events').insert({
       session_id: getSessionId(),
       event_name: input.eventName,
       subject: input.subject ?? null,
