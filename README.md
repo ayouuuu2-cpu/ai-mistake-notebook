@@ -56,6 +56,12 @@ npm run evaluate
 
 评测会调用与前端相同的 `/api/diagnosis` 接口，Langfuse 中会出现对应 Trace。题目背景会发送给模型参与诊断，但 Langfuse 只记录汇总信息与结构化结果。
 
+## 事件埋点与 SQL 分析
+
+运行 `supabase/schema.sql` 后，页面会向 `product_events` 记录四类匿名流程事件：错题创建、诊断发起、诊断完成、诊断失败。事件只保存学科、流程节点、耗时和置信度等产品指标，不保存题干、作答或对话原文。
+
+`analytics/event-analysis.sql` 提供近 7 天事件量、诊断漏斗、平均/P95 耗时与失败数的查询。分析结论仅应使用实际产生的事件，不能把自建评测集当作用户行为数据。
+
 每次运行会更新 `evaluation/latest-report.json`，其中保留命中率、平均耗时及每条样例的预期/实际结果；Langfuse Trace 元数据中也会带有 `evaluationCaseId`，便于复核。
 
 ## 3) 关键目录

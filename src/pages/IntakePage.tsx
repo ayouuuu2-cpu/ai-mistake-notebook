@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { createMistake } from '../lib/repository'
+import { trackProductEvent } from '../lib/analytics'
 import type { Subject } from '../types'
 
 const subjects: Subject[] = ['数学', '语文', '英语', '物理', '化学', '生物', '其他']
@@ -24,6 +25,16 @@ export function IntakePage() {
         questionText,
         studentAnswer,
         ocrRawText: ocrRawText || null,
+      })
+      void trackProductEvent({
+        eventName: 'mistake_created',
+        subject,
+        mistakeId: record.id,
+        metadata: {
+          hasOcrText: Boolean(ocrRawText.trim()),
+          questionLength: questionText.trim().length,
+          answerLength: studentAnswer.trim().length,
+        },
       })
       navigate(`/diagnosis?mistakeId=${record.id}`)
     } catch (e) {

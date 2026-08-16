@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { createDiagnosis } from '../lib/repository'
+import { trackProductEvent } from '../lib/analytics'
 
 const prompts = [
   '你知道这道题考的是什么知识点吗？',
@@ -52,10 +53,34 @@ export function DiagnosisPage() {
 
     setLoading(true)
     setError(null)
+    const startedAt = performance.now()
+    void trackProductEvent({
+      eventName: 'diagnosis_started',
+      mistakeId,
+      metadata: { answeredCount: answeredIndexes.length },
+    })
     try {
       const diagnosis = await createDiagnosis({ mistakeId, userMessages: messages })
+      void trackProductEvent({
+        eventName: 'diagnosis_completed',
+        mistakeId,
+        diagnosisId: diagnosis.id,
+        metadata: {
+          answeredCount: answeredIndexes.length,
+          latencyMs: Math.round(performance.now() - startedAt),
+          confidence: diagnosis.confidence,
+        },
+      })
       navigate('/summary', { state: { diagnosis } })
     } catch (e) {
+      void trackProductEvent({
+        eventName: 'diagnosis_failed',
+        mistakeId,
+        metadata: {
+          answeredCount: answeredIndexes.length,
+          latencyMs: Math.round(performance.now() - startedAt),
+        },
+      })
       setError(e instanceof Error ? e.message : '诊断失败')
     } finally {
       setLoading(false)
