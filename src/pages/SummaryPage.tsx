@@ -7,27 +7,27 @@ export function SummaryPage() {
   const navigate = useNavigate()
   const location = useLocation()
   const stateDiagnosis = (location.state as { diagnosis?: DiagnosisResult } | null)?.diagnosis
-  const [data, setData] = useState<DiagnosisResult | null>(null)
-  const [loading, setLoading] = useState(true)
+  const [data, setData] = useState<DiagnosisResult | null>(() => stateDiagnosis ?? null)
+  const [loading, setLoading] = useState(() => !stateDiagnosis)
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    if (stateDiagnosis) {
-      setData(stateDiagnosis)
-      setLoading(false)
-      return
-    }
+    if (stateDiagnosis) return
 
+    let cancelled = false
     void (async () => {
       try {
         const latest = await getLatestDiagnosis()
-        setData(latest)
+        if (!cancelled) setData(latest)
       } catch (e) {
-        setError(e instanceof Error ? e.message : '加载失败')
+        if (!cancelled) setError(e instanceof Error ? e.message : '加载失败')
       } finally {
-        setLoading(false)
+        if (!cancelled) setLoading(false)
       }
     })()
+    return () => {
+      cancelled = true
+    }
   }, [stateDiagnosis])
 
   if (loading) return <p className="muted">加载归纳结果中...</p>

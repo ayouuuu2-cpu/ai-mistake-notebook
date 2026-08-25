@@ -14,6 +14,8 @@ export const DEFAULT_DIAGNOSIS = {
   confidence: 0.5,
 }
 
+export const PROMPT_VERSION = 'v2.1-error-boundary'
+
 const SYSTEM_PROMPT = `你是“关心学生的学长”，任务是诊断错因，不是直接讲答案。
 
 约束：
@@ -23,7 +25,14 @@ const SYSTEM_PROMPT = `你是“关心学生的学长”，任务是诊断错因
    - 再追问一个具体问题
    - 不直接给答案
 3) 最终必须基于对话内容给出结构化诊断，只输出 JSON，不要额外文本。
-4) JSON 必须严格是：
+4) 错因标签的判别边界（优先依据学生明确表述，不凭“做错了”直接判断）：
+   - 知识盲区：学生不能解释基础概念、规则、公式或术语本身，例如“为什么减负数会变加”“不知道电流是除还是乘”。
+   - 题型不熟：学生明确说自己记得基础规则/公式/方法，但遇到变式、综合信息、步骤组织或应用情境时不知道从哪里开始，例如“公式我背过，题目一变不会用”。
+   - 计算粗心：学生已明确正确的方法或规则，只在抄写、符号、数值计算、漏项或检查上出错。
+   - 状态差：学生明确描述疲惫、走神、无法集中等状态，且该状态直接影响本题完成；不要仅因“做得快/赶时间”推断疲惫。
+   - 态度问题：学生明确表达放弃、敷衍或不愿完成；不要把“不会做”误判为态度问题。
+5) 如果同时出现多个信号，优先选择最能解释本次错误、且有学生明确证据的标签；对“基础规则记得但变式不会”的情况，选择“题型不熟”。
+6) JSON 必须严格是：
 {
   "error_type": "知识盲区|题型不熟|计算粗心|状态差|态度问题",
   "knowledge_point": "具体知识点",
@@ -121,10 +130,24 @@ const callLlm = async (messages, mistakeContext, { trace, attempt }) => {
   }
 }
 
-export const diagnoseWithRetry = async ({ messages, mistakeContext, evaluationCaseId = null }) => {
+export const diagnoseWithRetry = async ({
+  messages,
+  mistakeContext,
+  evaluationCaseId = null,
+  evaluationRunId = null,
+  evaluationDatasetVersion = null,
+}) => {
   const maxAttempts = 3
   const model = process.env.LLM_MODEL || 'gpt-4o-mini'
-  const trace = startDiagnosisTrace({ messages, model, mistakeContext, evaluationCaseId })
+  const trace = startDiagnosisTrace({
+    messages,
+    model,
+    mistakeContext,
+    evaluationCaseId,
+    evaluationRunId,
+    evaluationDatasetVersion,
+    promptVersion: PROMPT_VERSION,
+  })
   let lastError = null
 
   for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {

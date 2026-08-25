@@ -1,7 +1,7 @@
 import cors from 'cors'
 import dotenv from 'dotenv'
 import express from 'express'
-import { DEFAULT_DIAGNOSIS, diagnoseWithRetry, normalizeMistakeContext } from './diagnosis-service.js'
+import { DEFAULT_DIAGNOSIS, PROMPT_VERSION, diagnoseWithRetry, normalizeMistakeContext } from './diagnosis-service.js'
 import { flushLangfuse } from './langfuse.js'
 
 dotenv.config({ override: true })
@@ -20,10 +20,18 @@ app.post('/api/diagnosis', async (req, res) => {
     const evaluationCaseId = typeof req.body?.evaluationCaseId === 'string'
       ? req.body.evaluationCaseId.slice(0, 80)
       : null
+    const evaluationRunId = typeof req.body?.evaluationRunId === 'string'
+      ? req.body.evaluationRunId.slice(0, 80)
+      : null
+    const evaluationDatasetVersion = typeof req.body?.evaluationDatasetVersion === 'string'
+      ? req.body.evaluationDatasetVersion.slice(0, 40)
+      : null
     const diagnosis = await diagnoseWithRetry({
       messages,
       mistakeContext: normalizeMistakeContext(req.body?.mistakeContext),
       evaluationCaseId,
+      evaluationRunId,
+      evaluationDatasetVersion,
     })
     res.json(diagnosis)
   } catch (error) {
@@ -36,7 +44,7 @@ app.post('/api/diagnosis', async (req, res) => {
   }
 })
 
-app.get('/api/health', (_req, res) => res.json({ ok: true }))
+app.get('/api/health', (_req, res) => res.json({ ok: true, promptVersion: PROMPT_VERSION }))
 
 app.listen(port, () => {
   console.log(`diagnosis-api running on http://localhost:${port}`)

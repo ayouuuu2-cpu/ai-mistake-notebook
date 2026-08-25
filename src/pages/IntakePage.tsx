@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { createMistake } from '../lib/repository'
 import { trackProductEvent } from '../lib/analytics'
@@ -12,8 +12,37 @@ export function IntakePage() {
   const [questionText, setQuestionText] = useState('')
   const [studentAnswer, setStudentAnswer] = useState('')
   const [ocrRawText, setOcrRawText] = useState('')
+  const [imagePreviewUrl, setImagePreviewUrl] = useState<string | null>(null)
+  const [imageName, setImageName] = useState<string | null>(null)
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => () => {
+    if (imagePreviewUrl) URL.revokeObjectURL(imagePreviewUrl)
+  }, [imagePreviewUrl])
+
+  const onImageSelected = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const image = event.target.files?.[0]
+    if (!image) return
+    if (!image.type.startsWith('image/')) {
+      setError('请上传图片格式的错题截图或照片。')
+      event.target.value = ''
+      return
+    }
+    if (image.size > 8 * 1024 * 1024) {
+      setError('图片请控制在 8MB 以内。')
+      event.target.value = ''
+      return
+    }
+    setError(null)
+    setImageName(image.name)
+    setImagePreviewUrl(URL.createObjectURL(image))
+  }
+
+  const clearSelectedImage = () => {
+    setImagePreviewUrl(null)
+    setImageName(null)
+  }
 
   const onSubmit = async (event: React.FormEvent) => {
     event.preventDefault()
@@ -30,8 +59,10 @@ export function IntakePage() {
         eventName: 'mistake_created',
         subject,
         mistakeId: record.id,
-        metadata: {
+          metadata: {
+          hasImage: Boolean(imagePreviewUrl),
           hasOcrText: Boolean(ocrRawText.trim()),
+          ocrTextConfirmed: Boolean(ocrRawText.trim() && questionText.trim()),
           questionLength: questionText.trim().length,
           answerLength: studentAnswer.trim().length,
         },
@@ -47,7 +78,7 @@ export function IntakePage() {
   return (
     <section>
       <h2 className="page-title">错题录入</h2>
-      <p className="page-desc">MVP 支持拍照 OCR 文本确认（模拟）与手动录入，确认后立即进入 AI 对话诊断。</p>
+      <p className="page-desc">先选择错题图片并确认题干文本，再进入 AI 对话诊断。图片仅在当前浏览器预览，不会上传或写入数据库。</p>
 
       <form onSubmit={onSubmit} className="card">
         <div className="grid">
@@ -62,13 +93,28 @@ export function IntakePage() {
             </select>
           </div>
           <div>
-            <label className="label">OCR 原文（拍照识别后可编辑确认）</label>
+            <label className="label">识别文本（可编辑确认）</label>
             <input
               value={ocrRawText}
               onChange={(e) => setOcrRawText(e.target.value)}
-              placeholder="例如：已识别题干和作答草稿"
+              placeholder="粘贴 OCR 识别出的题干或作答草稿"
             />
           </div>
+        </div>
+
+        <div style={{ marginTop: 12 }}>
+          <label className="label">错题图片（可选）</label>
+          <input className="file-input" type="file" accept="image/*" onChange={onImageSelected} />
+          <p className="muted upload-note">支持截图或拍照；当前版本提供本地预览与人工文本确认，不调用第三方 OCR，也不保存原图。</p>
+          {imagePreviewUrl && (
+            <div className="image-preview-wrap">
+              <img className="image-preview" src={imagePreviewUrl} alt="待确认的错题图片预览" />
+              <div className="row image-preview-meta">
+                <span className="muted">已选择：{imageName}</span>
+                <button className="secondary compact-button" type="button" onClick={clearSelectedImage}>移除图片</button>
+              </div>
+            </div>
+          )}
         </div>
 
         <div style={{ marginTop: 12 }}>

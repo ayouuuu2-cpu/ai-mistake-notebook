@@ -48,7 +48,15 @@ const ensureTracing = () => {
   return true
 }
 
-export const startDiagnosisTrace = ({ messages, model, mistakeContext, evaluationCaseId }) => {
+export const startDiagnosisTrace = ({
+  messages,
+  model,
+  mistakeContext,
+  evaluationCaseId,
+  evaluationRunId,
+  evaluationDatasetVersion,
+  promptVersion,
+}) => {
   if (!ensureTracing()) return null
 
   return startObservation('mistake-diagnosis', {
@@ -59,6 +67,9 @@ export const startDiagnosisTrace = ({ messages, model, mistakeContext, evaluatio
       subject: mistakeContext?.subject || 'unknown',
       hasMistakeContext: Boolean(mistakeContext),
       evaluationCaseId,
+      evaluationRunId,
+      evaluationDatasetVersion,
+      promptVersion,
       rawStudentContentLogged: false,
     },
   })

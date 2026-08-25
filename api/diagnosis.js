@@ -16,10 +16,18 @@ export default async function handler(req, res) {
     const evaluationCaseId = typeof req.body?.evaluationCaseId === 'string'
       ? req.body.evaluationCaseId.slice(0, 80)
       : null
+    const evaluationRunId = typeof req.body?.evaluationRunId === 'string'
+      ? req.body.evaluationRunId.slice(0, 80)
+      : null
+    const evaluationDatasetVersion = typeof req.body?.evaluationDatasetVersion === 'string'
+      ? req.body.evaluationDatasetVersion.slice(0, 40)
+      : null
     const diagnosis = await diagnoseWithRetry({
       messages,
       mistakeContext: normalizeMistakeContext(req.body?.mistakeContext),
       evaluationCaseId,
+      evaluationRunId,
+      evaluationDatasetVersion,
     })
     res.status(200).json(diagnosis)
   } catch (error) {
