@@ -37,13 +37,12 @@ export function SummaryPage() {
   return (
     <section>
       <h2 className="page-title">错因归纳</h2>
-      <p className="page-desc">展示 AI 结构化输出：知识点、错误原因、状态标签和置信度。</p>
+      <p className="page-desc">展示结构化诊断结果：知识点、错误原因与作答状态。</p>
 
       <div className="card">
         <p><strong>知识点：</strong>{data.knowledgePoint}</p>
         <p><strong>错误原因：</strong>{data.errorType}</p>
-        <p><strong>状态标签：</strong>{data.stateTag}</p>
-        <p><strong>置信度：</strong>{Math.round(data.confidence * 100)}%</p>
+        <p><strong>作答状态：</strong>{data.stateTag}</p>
         <p><strong>诊断结论：</strong>{data.summary}</p>
       </div>
 

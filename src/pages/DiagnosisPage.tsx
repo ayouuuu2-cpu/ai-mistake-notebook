@@ -91,7 +91,7 @@ export function DiagnosisPage() {
     <section>
       <h2 className="page-title">AI 对话诊断</h2>
       <p className="page-desc">
-        控制在 2-3 个问题内完成状态与错因判断。当前页面先实现结构化采集，再接入真实大模型 Prompt。
+        通过 2-3 轮追问采集关键上下文，生成可复核的结构化诊断。
       </p>
 
       <form className="card" onSubmit={onDiagnose}>

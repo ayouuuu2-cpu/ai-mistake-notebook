@@ -23,7 +23,7 @@ export function WeaknessMapPage() {
   return (
     <section>
       <h2 className="page-title">薄弱点地图</h2>
-      <p className="page-desc">按知识点聚合错误次数，形成个体化薄弱点排序。</p>
+      <p className="page-desc">基于已完成诊断，按知识点聚合错误记录并呈现复习优先级。</p>
 
       {loading && <p className="muted">加载中...</p>}
       {error && <p className="muted">加载失败：{error}</p>}

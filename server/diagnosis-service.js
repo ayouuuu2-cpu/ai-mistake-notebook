@@ -14,7 +14,7 @@ export const DEFAULT_DIAGNOSIS = {
   confidence: 0.5,
 }
 
-export const PROMPT_VERSION = 'v2.1-error-boundary'
+export const PROMPT_VERSION = 'v2.2-knowledge-point-normalization'
 
 const SYSTEM_PROMPT = `你是“关心学生的学长”，任务是诊断错因，不是直接讲答案。
 
@@ -35,7 +35,7 @@ const SYSTEM_PROMPT = `你是“关心学生的学长”，任务是诊断错因
 6) JSON 必须严格是：
 {
   "error_type": "知识盲区|题型不熟|计算粗心|状态差|态度问题",
-  "knowledge_point": "具体知识点",
+  "knowledge_point": "使用学科规范术语，简洁不超过24字；不得使用“去字符串”等非规范表达。例如：括号前有负号时的去括号规则",
   "state": "正常|疲惫|敷衍",
   "confidence": 0到1的小数
 }
