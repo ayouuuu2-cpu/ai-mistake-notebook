@@ -14,7 +14,7 @@ export const DEFAULT_DIAGNOSIS = {
   confidence: 0.5,
 }
 
-export const PROMPT_VERSION = 'v2.2-knowledge-point-normalization'
+export const PROMPT_VERSION = 'v2.3-knowledge-point-guardrail'
 
 const SYSTEM_PROMPT = `你是“关心学生的学长”，任务是诊断错因，不是直接讲答案。
 
@@ -62,7 +62,23 @@ const buildUserPrompt = (messages = [], mistakeContext = null) => {
   return `${context}以下是学生在3轮诊断中的回答：\n${transcript}\n\n请先在内部完成“共情+追问”判断逻辑，再给出最终诊断 JSON。只返回 JSON。`
 }
 
-const parseDiagnosisJson = (rawContent) => {
+const normalizeKnowledgePoint = (value, mistakeContext) => {
+  const knowledgePoint = String(value || '').trim()
+  const questionText = String(mistakeContext?.questionText || '')
+  const hasNegativeParenthesizedTerm = /[-−]\s*[（(]/.test(questionText)
+  const hasMalformedMathTerm = /(字符串|直流)/.test(knowledgePoint)
+  const refersToNegativeSignRule = /负号|去(?:字符串|直流)/.test(knowledgePoint)
+
+  // 模型偶发会把“括号”误写成“字符串/直流”。仅在数学题干确有负号括号项时规范化，
+  // 避免对其他学科的知识点做不相关替换。
+  if (hasNegativeParenthesizedTerm && hasMalformedMathTerm && refersToNegativeSignRule) {
+    return '括号前有负号时的去括号规则'
+  }
+
+  return knowledgePoint
+}
+
+const parseDiagnosisJson = (rawContent, mistakeContext) => {
   const trimmed = String(rawContent || '').trim()
   const jsonText = trimmed.startsWith('```')
     ? trimmed.replace(/^```(?:json)?/i, '').replace(/```$/, '').trim()
@@ -73,7 +89,7 @@ const parseDiagnosisJson = (rawContent) => {
   }
   return {
     error_type: parsed.error_type,
-    knowledge_point: parsed.knowledge_point,
+    knowledge_point: normalizeKnowledgePoint(parsed.knowledge_point, mistakeContext),
     state: parsed.state,
     confidence: Math.max(0, Math.min(1, Number(parsed.confidence ?? 0.5))),
   }
@@ -118,7 +134,7 @@ const callLlm = async (messages, mistakeContext, { trace, attempt }) => {
     if (!response.ok) throw new Error(`LLM请求失败(${response.status}): ${await response.text()}`)
 
     const data = await response.json()
-    const diagnosis = parseDiagnosisJson(data?.choices?.[0]?.message?.content)
+    const diagnosis = parseDiagnosisJson(data?.choices?.[0]?.message?.content, mistakeContext)
     const usage = data?.usage
       ? { input: data.usage.prompt_tokens, output: data.usage.completion_tokens, total: data.usage.total_tokens }
       : undefined
