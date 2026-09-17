@@ -14,7 +14,7 @@ export const DEFAULT_DIAGNOSIS = {
   confidence: 0.5,
 }
 
-export const PROMPT_VERSION = 'v2.3-knowledge-point-guardrail'
+export const PROMPT_VERSION = 'v2.3-contextual-knowledge-normalization'
 
 const SYSTEM_PROMPT = `你是“关心学生的学长”，任务是诊断错因，不是直接讲答案。
 
@@ -62,20 +62,16 @@ const buildUserPrompt = (messages = [], mistakeContext = null) => {
   return `${context}以下是学生在3轮诊断中的回答：\n${transcript}\n\n请先在内部完成“共情+追问”判断逻辑，再给出最终诊断 JSON。只返回 JSON。`
 }
 
-const normalizeKnowledgePoint = (value, mistakeContext) => {
+export const normalizeKnowledgePoint = (value, mistakeContext) => {
   const knowledgePoint = String(value || '').trim()
-  const questionText = String(mistakeContext?.questionText || '')
-  const hasNegativeParenthesizedTerm = /[-−]\s*[（(]/.test(questionText)
-  const hasMalformedMathTerm = /(字符串|直流)/.test(knowledgePoint)
-  const refersToNegativeSignRule = /负号|去(?:字符串|直流)/.test(knowledgePoint)
+  if (mistakeContext?.subject !== '数学') return knowledgePoint
 
-  // 模型偶发会把“括号”误写成“字符串/直流”。仅在数学题干确有负号括号项时规范化，
-  // 避免对其他学科的知识点做不相关替换。
-  if (hasNegativeParenthesizedTerm && hasMalformedMathTerm && refersToNegativeSignRule) {
-    return '括号前有负号时的去括号规则'
-  }
-
-  return knowledgePoint
+  // 仅规范化完整的“X 前有负号 → 去 X 规则”异常句式，避免影响物理“直流”或
+  // 信息技术“字符串”等正常术语。
+  return knowledgePoint.replace(
+    /(?:括号|字符串|直流)\s*前(?:面)?有负号(?:时)?(?:的)?\s*去\s*(?:括号|字符串|直流)(?:\s*(?:的)?规则)?/g,
+    '括号前有负号时的去括号规则',
+  )
 }
 
 const parseDiagnosisJson = (rawContent, mistakeContext) => {

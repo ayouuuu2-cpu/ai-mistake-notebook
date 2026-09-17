@@ -8,6 +8,7 @@
     "dev:web": "vite",
     "dev:server": "node --watch server/index.js",
     "evaluate": "node server/run-evaluation.js",
+    "test": "node --test server/diagnosis-service.test.js",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
